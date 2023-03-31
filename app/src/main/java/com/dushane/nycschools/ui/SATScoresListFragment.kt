@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.dushane.nycschools.databinding.FragmentSatScoresListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -13,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class SATScoresListFragment : Fragment() {
-    private val binding = FragmentSatScoresListBinding.inflate(layoutInflater)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

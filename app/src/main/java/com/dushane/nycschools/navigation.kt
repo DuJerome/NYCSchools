@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavigatorProvider
 import androidx.navigation.compose.NavHost
@@ -16,31 +17,32 @@ import com.dushane.nycschools.ui.SATScoresListFragment
 import com.dushane.nycschools.ui.SchoolsListFragment
 import com.google.android.play.core.splitinstall.SplitInstallManager
 
-@Composable
-fun navigation(
-    navController: NavHostController = rememberNavController(),
-    startDestination: String = "school_list"
-) {
-
-    NavHost(
-        navController,
-        startDestination = Screen.SchoolListScreen.route
-    ) {
-        composable(
-            route = Screen.SchoolListScreen.route
-        ) {
-            SchoolsListFragment()
-        }
-
-        composable(route = Screen.SATScores.route) {
-            SATScoresListFragment()
-        }
-    }
+object destinations {
+    const val SCHOOL_LIST_ROUTE = "school_list"
+    const val SAT_SCORES_LIST_ROUTE = "sat_scores_list"
 }
 
-@Composable
-fun SchoolListScreen(
-    onNavigateToSATScore: () -> Unit
+class navigation(
+    context: Context,
+    navController: NavHostController = NavHostController(context = context),
 ) {
-    Button(onClick = onNavigateToSATScore)
+    val navigateToSchoolsList: () -> Unit = {
+        navController.navigate(destinations.SCHOOL_LIST_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id){
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    val navigateToSATScoresList: () -> Unit = {
+        navController.navigate(destinations.SAT_SCORES_LIST_ROUTE) {
+            popUpTo(navController.graph.findStartDestination().id){
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
 }
